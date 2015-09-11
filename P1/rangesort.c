@@ -53,6 +53,8 @@ int main (int argc, char* argv[]){
 	printf("The low val is %d\n", lowValue);
 	printf("The input file is %s\n", inFile);
 	printf("The output file is %S\n", outFile);
+	
+
 /* open input file */
     int fd = open(inFile, O_RDONLY);
     if (fd < 0) {
