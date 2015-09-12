@@ -44,7 +44,7 @@ int main (int argc, char* argv[]){
 	    usage(argv[0]);
 	}
 }
-/* Check if the range is valid */
+    /* Check if the range is valid */
 	if (highValue <= lowValue){
 		invalidRange();
 	}
@@ -55,12 +55,28 @@ int main (int argc, char* argv[]){
 	printf("The output file is %S\n", outFile);
 	
 
-/* open input file */
+    /* open input file */
     int fd = open(inFile, O_RDONLY);
     if (fd < 0) {
-	perror("open");
-	exit(1);
+        fprintf(stderr, "Error: Cannot open file %s", argv[0]);
+        exit(1);
     }
-	
+    /* obtain the file size*/
+    struct stat fileStat;
+    fstat(fd, &fileStat);
+    int fileSize = fileStat.st_size;
+    /* calculate number of elements in the array*/
+    int numOfElements = fileSize/sizeof(rec_t);
+    struct rec_t recs[numOfElements];
+    rec_t recPointer;
+    int i = 0;
+    
+    while ( read(fd, &recPointer, sizeof(rec_t))) != 0 ){
+        if (recPointer.key >= lowValue && recPointer.key <= highValue) {
+            recs[i] = recPointer;
+            i++
+        }
+    }
+    
 	return 0;
 }
