@@ -14,6 +14,10 @@ void usage(char *prog)
     exit(1);
 }
 
+int compareTo(const void *a, const void *b){
+    return ( *(rec_t*)a.key - *(rec_t*)b.key );
+}
+
 void invalidRange (){
 	fprintf(stderr, "Invalid range value");
     exit(1);
@@ -74,9 +78,10 @@ int main (int argc, char* argv[]){
     while ( read(fd, &recPointer, sizeof(rec_t))) != 0 ){
         if (recPointer.key >= lowValue && recPointer.key <= highValue) {
             recs[i] = recPointer;
-            i++
+            i++;
         }
     }
+    qsort(values, numOfElements, sizeof(rec_t), compareTo);
     
 	return 0;
 }
